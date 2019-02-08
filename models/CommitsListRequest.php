@@ -24,6 +24,7 @@ class CommitsListRequest extends Model
         if (!$this->validate()) {
             throw new BadRequestApiException($this->getErrors());
         }
+        set_time_limit(DEFAULT_GIT_COMMITS_LIST_TIME_LIMIT);
     }
 
     public function rules()
