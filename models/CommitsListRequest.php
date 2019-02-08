@@ -3,7 +3,10 @@
 namespace app\models;
 
 use app\components\exceptions\BadRequestApiException;
+use app\components\exceptions\FailedToGetCommitsException;
 use app\components\git\Repository;
+use app\components\git\repository\Storage;
+use app\components\git\repository\storages\CloudStorage;
 use app\components\git\repository\storages\FolderStorage;
 use app\components\viewer\Viewer;
 use yii\base\Model;
@@ -31,7 +34,13 @@ class CommitsListRequest extends Model
     {
         return [
             [['repositoryUrl', 'limit', 'offset'], 'required'],
-            ['limit', 'compare', 'compareValue' => MAX_REPOSITORY_COMMITS_LIMIT, 'operator' => '<=', 'type' => 'number'],
+            [
+                'limit',
+                'compare',
+                'compareValue' => MAX_REPOSITORY_COMMITS_LIMIT,
+                'operator' => '<=',
+                'type' => 'number'
+            ],
             ['repositoryUrl', 'url'],
         ];
     }
@@ -39,6 +48,7 @@ class CommitsListRequest extends Model
     /**
      * @param Viewer $viewer
      * @return string
+     * @throws FailedToGetCommitsException
      * @throws \app\components\exceptions\UnsupportedCommitRenderModeException
      */
     public function processUsingViewer(Viewer $viewer)
@@ -49,21 +59,31 @@ class CommitsListRequest extends Model
     }
 
     /**
-     * @return mixed
+     * Try to get commits from GitHub API, if not succeeded - use folder storage
      */
     public function getCommits()
     {
-        return $this->getRepository()->getCommits($this->limit, $this->offset);
+        try {
+            $result = $this->getRepository(new CloudStorage($this->repositoryUrl))
+                ->getCommits($this->limit, $this->offset);
+        } finally {
+            if (empty($result)) {
+                $result = $this->getRepository(new FolderStorage())
+                    ->getCommits($this->limit, $this->offset);
+            }
+            return $result;
+        }
     }
 
     /**
+     * @param Storage $storage
      * @return Repository
      */
-    private function getRepository()
+    private function getRepository(Storage $storage)
     {
         return new Repository([
             'url' => $this->repositoryUrl,
-            'storage' => new FolderStorage()
+            'storage' => $storage
         ]);
     }
 }

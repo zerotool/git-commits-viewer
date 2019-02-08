@@ -20,7 +20,7 @@ class CommitsListRequestTest extends \Codeception\Test\Unit
     {
         $this->mockModel();
         expect($this->model->processUsingViewer(new ConsoleViewer(ConsoleViewer::RENDER_MODE_SHORT)))
-            ->equals(iterator_to_array($this->createTestCommit())[0]->hash . ':' . PHP_EOL);
+            ->equals($this->createTestCommit()->hash . ':' . PHP_EOL);
     }
 
 
@@ -36,7 +36,7 @@ class CommitsListRequestTest extends \Codeception\Test\Unit
      */
     private function createTestCommit()
     {
-        yield new Commit(json_decode($this->tester->loadFixture('commit.json'), true));
+        return new Commit(json_decode($this->tester->loadFixture('commit.json'), true));
     }
 
     private function mockModel()
@@ -48,6 +48,6 @@ class CommitsListRequestTest extends \Codeception\Test\Unit
 
         $this->model->expects($this->once())
             ->method('getCommits')
-            ->will($this->returnValue($this->createTestCommit()));
+            ->will($this->returnValue([$this->createTestCommit()]));
     }
 }

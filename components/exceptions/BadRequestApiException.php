@@ -16,12 +16,14 @@ class BadRequestApiException extends BadRequestHttpException
     }
 
     /**
-     * @return \Generator
+     * @return array
      */
     public function getErrorMessages()
     {
+        $result = [];
         foreach ($this->errors as $fieldName => $fieldErrors) {
-            yield implode(', ', $fieldErrors);
+            $result[] = implode(', ', $fieldErrors);
         }
+        return $result;
     }
 }

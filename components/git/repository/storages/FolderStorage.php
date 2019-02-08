@@ -56,11 +56,12 @@ class FolderStorage extends Storage
      * @param $uniqueId
      * @param null $limit
      * @param null $offset
-     * @return \Generator
+     * @return array
      * @throws FailedToGetCommitsException
      */
     public function getCommits($uniqueId, $limit = null, $offset = null)
     {
+        $result = [];
         $getCommitsCommand = GitCommandsRepository::gitLog(
             $this->getLocalPath($uniqueId),
             $this->getCommitFormat(),
@@ -73,9 +74,10 @@ class FolderStorage extends Storage
         foreach (explode(static::COMMITS_SEPARATOR, $getCommitsCommand->outputToString()) as $commit) {
             $parts = explode(static::COMMIT_FIELDS_SEPARATOR, $commit);
             if (count($parts) == count(static::COMMIT_FIELDS)) {
-                yield new Commit(array_combine(array_values(static::COMMIT_FIELDS), $parts));
+                $result[] = new Commit(array_combine(array_values(static::COMMIT_FIELDS), $parts));
             }
         }
+        return $result;
     }
 
     /**

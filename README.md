@@ -149,10 +149,11 @@ echo $commitsListRequest->processUsingViewer(
 ## Todo
 
 1. Improve the test coverage (components).
-2. Implement Cloud and Persistent storages.
+2. Implement Persistent storage.
 3. Add a request parameter to refresh the repository.
 4. Decorate exceptions by adding more details.
 5. Add a validation for a minimal required GIT version (support `--no-tags` parameter).
+6. Add pagination support to GitHub API (limit, offset vs since, until).
 
 ## Contact Information
 

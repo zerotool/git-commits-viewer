@@ -55,31 +55,35 @@ class Viewer extends BaseObject
     }
 
     /**
-     * @return \Generator
+     * @return array
      */
     private function renderShort()
     {
+        $result = [];
         foreach ($this->elements as $element) {
-            yield $element->toString();
+            $result[] = $element->toString();
         }
+        return $result;
     }
 
     /**
-     * @return \Generator
+     * @return array
      */
     private function renderFull()
     {
+        $result = [];
         foreach ($this->elements as $element) {
-            yield print_r($element, true);
+            $result[] = print_r($element, true);
         }
+        return $result;
     }
 
     /**
-     * @param $outputIterator
+     * @param $outputArray
      * @return string
      */
-    private function wrapOutput($outputIterator)
+    private function wrapOutput($outputArray)
     {
-        return implode(static::LINE_SEPARATOR, iterator_to_array($outputIterator)) . static::LINE_SEPARATOR;
+        return implode(static::LINE_SEPARATOR, $outputArray) . static::LINE_SEPARATOR;
     }
 }

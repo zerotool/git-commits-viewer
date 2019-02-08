@@ -33,7 +33,7 @@ class GitController extends Controller
             echo $commitsListRequest->processUsingViewer(new ConsoleViewer($mode));
             return ExitCode::OK;
         } catch (BadRequestApiException $exception) {
-            echo 'Error: ' . implode(PHP_EOL, iterator_to_array($exception->getErrorMessages())) . PHP_EOL;
+            echo 'Error: ' . implode(PHP_EOL, $exception->getErrorMessages()) . PHP_EOL;
             return ExitCode::DATAERR;
         } catch (\Exception $exception) {
             echo $exception->getMessage() . PHP_EOL;

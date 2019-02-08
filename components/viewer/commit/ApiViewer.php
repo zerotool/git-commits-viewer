@@ -14,7 +14,7 @@ class ApiViewer extends Viewer
         } catch (\Exception $e) {
             switch ($this->renderMode) {
                 case \yii\web\Response::FORMAT_JSON:
-                    return json_encode(['elements' => iterator_to_array($this->elements)]) . static::LINE_SEPARATOR;
+                    return json_encode(['elements' => $this->elements]) . static::LINE_SEPARATOR;
                     break;
                 default:
                     throw new UnsupportedCommitRenderModeException('Unsupported render mode: ' . $this->renderMode);
