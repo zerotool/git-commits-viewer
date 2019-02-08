@@ -8,13 +8,17 @@ use yii\web\Response;
 
 class ApiController extends Controller
 {
-
     /** @var Request */
     protected $request;
 
     /** @var Response */
     protected $response;
 
+    /**
+     * @param $action
+     * @return bool
+     * @throws \yii\web\BadRequestHttpException
+     */
     public function beforeAction($action)
     {
         $this->enableCsrfValidation = false;
@@ -23,6 +27,10 @@ class ApiController extends Controller
         return parent::beforeAction($action);
     }
 
+    /**
+     * @param $errorMessages
+     * @param $statusCode
+     */
     protected function returnError($errorMessages, $statusCode)
     {
         $this->response->content = json_encode(['errors' => $errorMessages]);

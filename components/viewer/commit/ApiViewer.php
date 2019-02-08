@@ -17,7 +17,7 @@ class ApiViewer extends Viewer
                     return json_encode(['elements' => iterator_to_array($this->elements)]) . static::LINE_SEPARATOR;
                     break;
                 default:
-                    throw new UnsupportedCommitRenderModeException("Unsupported render mode: $this->renderMode");
+                    throw new UnsupportedCommitRenderModeException('Unsupported render mode: ' . $this->renderMode);
                     break;
             }
         }

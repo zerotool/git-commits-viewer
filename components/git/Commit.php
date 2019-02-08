@@ -16,6 +16,6 @@ class Commit extends BaseObject
 
     public function toString()
     {
-        return $this->hash . ":" . $this->dateTime;
+        return $this->hash . ':' . $this->dateTime;
     }
 }

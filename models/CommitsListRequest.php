@@ -8,6 +8,10 @@ use app\components\git\repository\storages\FolderStorage;
 use app\components\viewer\Viewer;
 use yii\base\Model;
 
+/**
+ * Class CommitsListRequest
+ * @package app\models
+ */
 class CommitsListRequest extends Model
 {
     public $repositoryUrl = DEFAULT_REPOSITORY_URL;
@@ -31,6 +35,11 @@ class CommitsListRequest extends Model
         ];
     }
 
+    /**
+     * @param Viewer $viewer
+     * @return string
+     * @throws \app\components\exceptions\UnsupportedCommitRenderModeException
+     */
     public function processUsingViewer(Viewer $viewer)
     {
         return $viewer
@@ -38,11 +47,17 @@ class CommitsListRequest extends Model
             ->render();
     }
 
+    /**
+     * @return mixed
+     */
     public function getCommits()
     {
         return $this->getRepository()->getCommits($this->limit, $this->offset);
     }
 
+    /**
+     * @return Repository
+     */
     private function getRepository()
     {
         return new Repository([

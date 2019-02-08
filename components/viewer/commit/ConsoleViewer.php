@@ -16,10 +16,10 @@ class ConsoleViewer extends Viewer
         } catch (UnsupportedCommitRenderModeException $e) {
             switch ($this->renderMode) {
                 case static::RENDER_MODE_MUTE:
-                    return "";
+                    return '';
                     break;
                 default:
-                    throw new UnsupportedCommitRenderModeException("Unsupported render mode: $this->renderMode");
+                    throw new UnsupportedCommitRenderModeException('Unsupported render mode: ' . $this->renderMode);
                     break;
             }
         }

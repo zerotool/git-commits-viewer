@@ -1,9 +1,11 @@
 <?php
+
 namespace app\components\exceptions;
 
 use yii\web\BadRequestHttpException;
 
-class BadRequestApiException extends BadRequestHttpException {
+class BadRequestApiException extends BadRequestHttpException
+{
 
     public $errors;
 
@@ -13,8 +15,12 @@ class BadRequestApiException extends BadRequestHttpException {
         $this->errors = $errors;
     }
 
-    public function getErrorMessages(){
-        foreach($this->errors as $fieldName => $fieldErrors){
+    /**
+     * @return \Generator
+     */
+    public function getErrorMessages()
+    {
+        foreach ($this->errors as $fieldName => $fieldErrors) {
             yield implode(', ', $fieldErrors);
         }
     }

@@ -5,8 +5,12 @@ namespace app\controllers;
 use app\components\exceptions\BadRequestApiException;
 use app\components\viewer\commit\ApiViewer;
 use app\models\CommitsListRequest;
-use yii\web\BadRequestHttpException;
+use yii\web\ServerErrorHttpException;
 
+/**
+ * Class CommitsController
+ * @package app\controllers
+ */
 class CommitsController extends ApiController
 {
     public function actionList()
@@ -19,10 +23,9 @@ class CommitsController extends ApiController
             );
         } catch (BadRequestApiException $exception) {
             $this->returnError($exception->errors, $exception->statusCode);
-        } catch (BadRequestHttpException $exception) {
-            $this->returnError($exception->getMessage(), $exception->statusCode);
         } catch (\Exception $exception) {
-            $this->returnError('Application Error', 500);
+            $exceptionMask = new ServerErrorHttpException();
+            $this->returnError(['general' => [$exception->getMessage()]], $exceptionMask->statusCode);
             \Yii::error($exception->getMessage());
         }
     }

@@ -11,7 +11,6 @@ use app\components\git\repository\storage;
  */
 class CloudStorage extends Storage
 {
-
     public function repositoryStored($uniqueId)
     {
         throw new \Exception("Not yet implemented");

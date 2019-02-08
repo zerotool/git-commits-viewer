@@ -12,7 +12,6 @@ use yii\db\Exception;
  */
 class PersistentStorage extends Storage
 {
-
     public function repositoryStored($uniqueId)
     {
         throw new Exception("Not yet implemented");
@@ -21,7 +20,6 @@ class PersistentStorage extends Storage
     public function cloneRepository($repositoryUrl, $uniqueId)
     {
         throw new Exception("Not yet implemented");
-
     }
 
     public function getCommits($uniqueId, $limit = null, $offset = null)

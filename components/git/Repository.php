@@ -5,6 +5,10 @@ namespace app\components\git;
 use yii\base\BaseObject;
 use app\components\git\repository\storage;
 
+/**
+ * Class Repository
+ * @package app\components\git
+ */
 class Repository extends BaseObject
 {
     /** @var [] */
@@ -32,6 +36,11 @@ class Repository extends BaseObject
         return $this->url;
     }
 
+    /**
+     * @param null $limit
+     * @param null $offset
+     * @return mixed
+     */
     public function getCommits($limit = null, $offset = null)
     {
         if ($this->commits === null) {

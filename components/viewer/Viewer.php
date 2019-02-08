@@ -25,12 +25,20 @@ class Viewer extends BaseObject
         $this->renderMode = $renderMode;
     }
 
+    /**
+     * @param $elements
+     * @return $this
+     */
     public function setElements($elements)
     {
         $this->elements = $elements;
         return $this;
     }
 
+    /**
+     * @return string
+     * @throws UnsupportedCommitRenderModeException
+     */
     public function render()
     {
         switch ($this->renderMode) {
@@ -41,11 +49,14 @@ class Viewer extends BaseObject
                 return $this->wrapOutput($this->renderShort());
                 break;
             default:
-                throw new UnsupportedCommitRenderModeException("Unsupported render mode: $this->renderMode");
+                throw new UnsupportedCommitRenderModeException('Unsupported render mode: ' . $this->renderMode);
                 break;
         }
     }
 
+    /**
+     * @return \Generator
+     */
     private function renderShort()
     {
         foreach ($this->elements as $element) {
@@ -53,6 +64,9 @@ class Viewer extends BaseObject
         }
     }
 
+    /**
+     * @return \Generator
+     */
     private function renderFull()
     {
         foreach ($this->elements as $element) {
@@ -60,6 +74,10 @@ class Viewer extends BaseObject
         }
     }
 
+    /**
+     * @param $outputIterator
+     * @return string
+     */
     private function wrapOutput($outputIterator)
     {
         return implode(static::LINE_SEPARATOR, iterator_to_array($outputIterator)) . static::LINE_SEPARATOR;
